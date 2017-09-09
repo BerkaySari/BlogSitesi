@@ -1,0 +1,25 @@
+﻿@if (Request.IsAuthenticated && User.Identity.Name != "Admin")
+{
+    <text>
+        Merhaba, @Html.ActionLink(User.Identity.Name, "Manage", "Manage", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken()
+            <a href="javascript:document.getElementById('logoutForm').submit()">Çıkış yap</a>
+        }
+    </text>
+    }
+    else if (Request.IsAuthenticated && User.Identity.Name == "Admin")
+    {
+            <text>
+                Merhaba, @Html.ActionLink(User.Identity.Name, "Admin", "Admin", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()">Çıkış yap</a>
+                }
+           </text>
+} else {
+    <ul>
+        <li>@Html.ActionLink("Kayıt ol", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Giriş yap", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

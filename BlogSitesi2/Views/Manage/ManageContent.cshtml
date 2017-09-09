@@ -1,0 +1,28 @@
+﻿@using Domain.Model.BlogPosts
+
+@{
+    ViewBag.Title = "ManageContent";
+}
+
+@{List<BlogPost> kListe = (List<BlogPost>)ViewData["ActiveUserPosts"];}
+
+<table>
+    @foreach (var item in kListe)
+    {
+        <tr>
+            <td>
+                <div class="lead">
+                    <h4>@item.Title</h4>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <abbr title="Yayınlanma tarihi">@item.Date</abbr> &nbsp;&nbsp; &curren; &nbsp;&nbsp; <abbr title="Kullanıcı adı">@item.UserInfo.UserName</abbr>
+            </td>
+        </tr>
+        <tr>
+            <td><br /><h3>@Html.Raw(item.Contents.Replace(Environment.NewLine, "<br/>"))</h3></td>
+        </tr>
+    }
+</table>

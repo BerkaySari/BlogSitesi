@@ -1,0 +1,141 @@
+﻿@using Domain.Model.BlogPosts
+@using Domain.Model.Comments
+
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Icerik";
+}
+
+@{List<BlogPost> kListe = (List<BlogPost>) ViewData["ActiveUserPosts"];}
+@{List<Comment> commentList = (List<Comment>) ViewData["UserComment"];}
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Blog Sitesi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="container">
+    <table>
+        @foreach (var item in kListe)
+        {
+            <tr>
+                <td>
+                    <div class="lead">
+                        <h4>@item.Title</h4>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <abbr title="Yayınlanma tarihi">@item.Date</abbr> &nbsp;&nbsp; &curren; &nbsp;&nbsp; <abbr title="Kullanıcı adı">@item.UserInfo.UserName</abbr>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br/>
+                    <h3>@Html.Raw(item.Contents.Replace(Environment.NewLine, "<br/>"))</h3>
+                </td>
+            </tr>
+        }
+    </table>
+    <table>
+        <div id="container-foot" style="margin-top: 15px;">
+            <tr>
+                @foreach (var comment in commentList)
+                {
+                    @comment.UserName
+                    <text>&nbsp; &nbsp; &rarr; &nbsp; &nbsp;</text>
+                    @comment.Date
+                    <text>&nbsp; &nbsp; &rarr; &nbsp; &nbsp;</text>
+                    @comment.CommentText
+                    <br/>
+                }
+            </tr>
+            <tr>
+                @using (Html.BeginForm("Comment", "Home", FormMethod.Post))
+                {
+                    <textarea name="CommentText" rows="7"></textarea>
+                    foreach (var item in kListe)
+                    {
+                        <input name="PostId" value=@item.Id type="hidden"/>
+                    }
+                    <input type="submit" name=Edit value="Yorumu Gönder" class="myBtn"/>
+                }
+            </tr>
+        </div>
+    </table>
+    <br/>
+</div>
+</body>
+</html>
+
+
+
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script>
+            $.ajax({
+                type: 'GET',
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                url: 'http://localhost:5000/getData/getPostStats',
+                dataType: "jsonp",
+                processdata: true,
+                success: function (data) {             
+                    var j = 0;
+                    var cData = [];
+                    for (j; j < data.length; j++) {
+                        cData.push({ "country": data[j].PostId, "visits": data[j].ViewCount, "color": "#FF0F02" });
+                    }
+
+                    AmCharts.makeChart("chartdiv", {
+                        "type": "serial",
+                        "theme": "light",
+                        "marginRight": 70,
+                        "dataProvider": cData,
+                        "valueAxes": [{
+                            "axisAlpha": 0,
+                            "position": "left",
+                            "title": "Visitors from post"
+                        }],
+                        "startDuration": 1,
+                        "graphs": [{
+                            "balloonText": "<b>[[category]]: [[value]]</b>",
+                            "fillColorsField": "color",
+                            "fillAlphas": 0.9,
+                            "lineAlpha": 0.2,
+                            "type": "column",
+                            "valueField": "visits"
+                        }],
+                        "chartCursor": {
+                            "categoryBalloonEnabled": false,
+                            "cursorAlpha": 0,
+                            "zoomable": false
+                        },
+                        "categoryField": "country",
+                        "categoryAxis": {
+                            "gridPosition": "start",
+                            "labelRotation": 45
+                        },
+                        "export": {
+                            "enabled": true
+                        }
+
+                    });
+                },
+                error: function (data) {
+                    alert('error');
+                }
+            });
+</script>
+
+<div id="chartdiv" style="width: 600px; height: 400px;"></div>			
+									

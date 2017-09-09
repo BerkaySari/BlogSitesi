@@ -1,0 +1,48 @@
+﻿@using reCAPTCHA.MVC
+@model BlogSitesi2.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Kayıt ol";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Hemen yeni bir hesap oluştur.</h2>
+</hgroup>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Registration Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Mail)
+                @Html.TextBoxFor(m => m.Mail)
+                @Html.ValidationMessageFor(m => m.Mail)
+            </li>
+        </ol>
+
+        @Html.Recaptcha()
+        @Html.ValidationMessage("ReCaptcha")
+        <input name="captcha" value="captchaValid" type="hidden" />
+        <input type="submit" value="Kayıt ol" class="myBtn" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

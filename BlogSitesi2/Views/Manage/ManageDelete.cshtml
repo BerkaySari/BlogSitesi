@@ -1,0 +1,25 @@
+﻿@using Domain.Model.BlogPosts
+
+@{
+    ViewBag.Title = "ManageDelete";
+}
+
+<h2>Silmek istediğinize emin misiniz ?</h2>
+<br/>
+@{List<BlogPost> postsList = (List<BlogPost>)ViewData["DeleteUserPosts"];}
+
+@foreach (var item in postsList)
+{
+    using (Html.BeginForm("ManageDelete", "Manage", FormMethod.Post))
+    {
+    <b>Kullanıcı Adı: </b>@item.UserInfo.UserName
+    <br/>
+    <b>Başlık: </b>@item.Title
+    <br/>
+    <b>İçerik: </b>@item.Contents
+    <br/>
+    <b>Oluşturulma Tarihi: </b>@item.Date
+    <br/>
+    <input type="submit" name=Edit value="Sil" id=@item.Id username=@item.UserInfo.UserName class="myBtn" />
+    }
+}

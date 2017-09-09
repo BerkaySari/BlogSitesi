@@ -1,0 +1,92 @@
+﻿@using BlogSitesi2.Controllers
+@using Domain.Model.UserInfos
+@using Domain.Model.BlogPosts
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@{List<BlogPost> kuListe = (List<BlogPost>)ViewData["ActiveUserPosts"];}
+@{List<UserInfo> userList = (List<UserInfo>)ViewData["Users"];}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Blog Sitesi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    @*<link href="style.css" rel="stylesheet" type="text/css"/>*@
+
+    
+</head>
+<body>
+    
+    <div id="container">
+        <div id="navcontainer">
+        </div>
+        <div class="col-md-4">
+            <div id="sidebar">
+                <h2>Son Üyeler</h2>
+                <div class="navlist">
+                    <ul>
+                        @{foreach (var item in userList)
+                        {
+                            <li>
+                                @Html.ActionLink(item.UserName, "UserProfile", "Profile", new { id = item.Id, UserName = item.UserName }, null)
+                                <input name="UserName" value=@item.UserName type="hidden" />
+                            </li>
+                        }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="content">
+
+            @{foreach (var item in kuListe)
+            {
+                {
+                    string dataShow = item.Contents;
+                    int count = item.Contents.Length;
+                    dataShow = item.Contents.Substring(0, count / 5);
+                    item.Contents = dataShow;
+                }
+                <input type="hidden" id="name" name="Id" value="Id" />
+
+                <h2>@item.Title</h2>
+                <p>@item.Contents ...</p>
+
+                @*<a class="byOne" id="@item.Id"> bir arttır</a>*@
+                <p class="post" id="@item.Id">
+
+                        <a id="@item.Id" href="#" class="readmore">@Html.ActionLink("DEVAMINI OKUMAK İÇİN TIKLAYIN", "Icerik", new {id = item.Id, title = ((HomeController) this.ViewContext.Controller).GenerateSlug(item.Title)})</a><span class="date">@item.UserInfo.UserName tarafından &nbsp;&nbsp; &curren; &nbsp;&nbsp; @item.Date tarihinde yayınlandı...</span>
+                </p>
+            }
+            }
+        </div>
+
+        <div id="container-foot">
+            <div id="footer">
+                <p>
+                    &copy; 2016 Berkay Sarı | Lisans: <a rel="license" href="http://google.com">google.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="C:\Users\BerkaySarı\Desktop\BlogSitesi2\statistics\app.js"></script>
+<script src="~/Scripts/jquery-1.9.1.js"></script>
+
+<script>
+    $('.post')
+        .click(function() {
+
+            var postId = $(this).attr('id');
+
+            $.get("http://localhost:6108/routes/postIncrementByOne?value=" + postId + "&userName=@User.Identity.Name",
+                function(result) {
+                    console.log(result);
+                });
+        })
+</script>

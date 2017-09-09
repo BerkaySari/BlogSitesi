@@ -1,0 +1,48 @@
+﻿@using Domain.Model.Comments
+@using Domain.Model.BlogPosts
+
+@{
+    ViewBag.Title = "NotActivePostViewAdmin";
+}
+
+@{List<BlogPost> postList = (List<BlogPost>)ViewData["NotActiveUserPosts"];}
+@{List<Comment> commentList = (List<Comment>)ViewData["UserComment"];}
+
+<table>
+    @foreach (var item in postList)
+    {
+        <tr>
+            <td>
+                <div class="lead">
+                    <h4>@item.Title</h4>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <abbr title="Yayınlanma tarihi">@item.Date</abbr> &nbsp;&nbsp; &curren; &nbsp;&nbsp; <abbr title="Kullanıcı adı">@item.UserInfo.UserName</abbr>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                <h3>@Html.Raw(item.Contents.Replace(Environment.NewLine, "<br/>"))</h3>
+            </td>
+        </tr>
+    }
+</table>
+<table>
+<div id="container-foot" style="margin-top: 15px;">
+    <tr>
+        @foreach (var comment in commentList)
+        {
+            @comment.UserName
+            <text>&nbsp; &nbsp; &rarr; &nbsp; &nbsp;</text>
+            @comment.Date
+            <text>&nbsp; &nbsp; &rarr; &nbsp; &nbsp;</text>
+            @comment.CommentText
+            <br/>
+        }
+    </tr>
+</div>
+</table>

@@ -1,0 +1,22 @@
+﻿@using Domain.Model.BlogPosts
+
+@{
+    ViewBag.Title = "ManageEdit";
+}
+
+@{List<BlogPost> postsList = (List<BlogPost>)ViewData["EditUserPosts"];}
+
+@foreach (var item in postsList)
+{
+    using (Html.BeginForm("ManageEdit", "Manage", FormMethod.Post))
+    {
+        <table id="myTable" class="table table-bordered">
+            <tr class="info"><th>Yazar Adı: </th><td>@item.UserInfo.UserName</td></tr>
+            <tr><th>Başlık: </th><td>@Html.TextBoxFor(m => m.Title, new { @Value = item.Title, id = @item.Title })</td></tr>
+            @*<tr><th>İçerik: </th><td>@Html.TextBoxFor(m => m.Contents, new { @Value = item.Contents, style = "height: 35px;", @class = "form-control" })</td></tr>*@
+            <tr><th>İçerik: </th><td><textarea id="taContents" rows="7" name= "Contents">@item.Contents</textarea>
+            @*<input name ="Active" value="asdasdsasd" type="hidden"/>  -- hidden input ile binding(model.Active ye value yi gönderir.) *@             
+        </table>
+    <input type="submit" name=Edit value="Edit" id=@item.Id class="myBtn" />
+    }
+}

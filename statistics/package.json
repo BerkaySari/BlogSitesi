@@ -1,0 +1,21 @@
+{
+  "name": "statistics",
+  "version": "0.0.0",
+  "description": "statistics",
+  "main": "app.js",
+  "author": {
+    "name": "BerkaySarı",
+    "email": ""
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cshtml": "^1.1.0",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "jade": "^1.11.0",
+    "mongoose": "^4.5.8",
+    "mssql": "^3.3.0",
+    "nodejs-mvc": "^2.0.2"
+  }
+}

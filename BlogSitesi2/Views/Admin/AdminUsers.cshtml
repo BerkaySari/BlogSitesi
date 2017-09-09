@@ -1,0 +1,39 @@
+﻿@using Domain.Model.UserInfos
+@{
+    ViewBag.Title = "AdminUsers";
+}
+
+@{List<UserInfo> userList = (List<UserInfo>) ViewData["UserInformations"];}
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <tr class="text-center">
+            <b>>>Üyelerimiz<<</b>
+            <div class="float-right">
+                @Html.ActionLink("Bekleyen Postlar", "AdminNotActivePosts")  @Html.ActionLink("Aktif Postlar", "AdminActivePosts")
+            </div>
+        </tr>
+        <tr>
+            <td><b><u>Kullanıcı Adı</u></b></td>
+            <td><b><u>Şifresi</u></b></td>
+            <td><b><u>Mail Adresi</u></b></td>
+            <td><b><u>Kayıt Tarihi</u></b></td>
+            <td><b><u>Üyeyi Sil</u></b></td>
+        </tr>
+        @foreach (var item in userList)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>@item.Password</td>
+                <td>@item.Mail</td>
+                <td>@item.Date</td>
+                <td>
+                    @if (item.UserName != "Admin")
+                    {
+                        @Html.ActionLink("Delete", "DeleteUserAdmin", new { id = item.Id })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>

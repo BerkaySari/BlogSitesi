@@ -1,0 +1,46 @@
+﻿@using Domain.Model.BlogPosts
+
+@{
+    ViewBag.Title = "AdminNotActivePosts";
+}
+
+@{List<BlogPost> notActivePosts = (List<BlogPost>)ViewData["NotActiveUserPosts"];}
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <tr>
+            <b>>>Bekleyen içerikler<<</b>
+            <div class="float-right">  @Html.ActionLink("Üyeler", "AdminUsers")  @Html.ActionLink("Aktif Postlar", "AdminActivePosts")</div>
+        </tr>
+        <tr>
+            <td><b><u>Kullanıcı Adı</u></b></td>
+            <td><b><u>Başlık</u></b></td>
+            <td><b><u>Tarih</u></b></td>
+            <td><b><u>Yayına Al</u></b></td>
+            <td><b><u>Görüntüle</u></b></td>
+            <td><b><u>Yorumlar</u></b></td>
+            <td><b><u>Sil</u></b></td>
+        </tr>
+
+        @foreach (var item in notActivePosts)
+        {
+            <tr>
+                <td>@item.UserInfo.UserName</td>
+                <td>@item.Title</td>
+                <td>@item.Date</td>
+                <td>
+                    @Html.ActionLink("Yayına Al", "ActivatePostAdmin", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Görüntüle", "NotActivePostViewAdmin", new {id = item.Id})
+                </td>
+                <td>
+                    @Html.ActionLink("Yorumlar", "AdminCommentTitle", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Sil", "NotActivePostDelete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

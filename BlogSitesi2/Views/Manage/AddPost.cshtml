@@ -1,0 +1,18 @@
+﻿<body>
+    <div class="table-responsive">
+
+        @using (Html.BeginForm("AddPost", "Manage", FormMethod.Post))
+        {
+            <form action="/HomeController/YaziEkle" method="post" autocomplete="on">
+                <div id="myTable">
+                    <table border="0" cellspacing="0" cellpadding="0" id="myTable" class="table table-striped">
+                        <tr class="active"><th>Yazar Adı: </th><td>@User.Identity.Name</td></tr>
+                        <tr><th>Başlık: </th><td>@Html.TextBoxFor(m => m.Title, new { @class = "form-control" })</td></tr>
+                        <tr><th>İçerik: </th><td>@Html.TextAreaFor(m => m.Contents, new { @class = "form-control", rows = 8, style = "width: 500px" })</td></tr>
+                        <tr><th><input type="submit" value="Ekle" id="btnGonder" class="myBtn" /></th></tr>
+                    </table>
+                </div>
+            </form>
+        }
+    </div>
+</body>

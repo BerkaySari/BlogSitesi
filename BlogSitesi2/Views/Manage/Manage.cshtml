@@ -1,0 +1,61 @@
+﻿@using Domain.Model.BlogPosts
+
+@{
+    ViewBag.Title = "Hesabını yönet.";
+}
+
+@{List<BlogPost> kListe = (List<BlogPost>)ViewData["ActiveUserPosts"];}
+
+<div class="table-responsive">
+    <table>
+        <tr>
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+            </hgroup>
+
+            <p class="message-success">@ViewBag.StatusMessage</p>
+
+            <content class="float-left">
+                <p><strong>@User.Identity.Name</strong> hesabı ile giriş yaptınız. &nbsp;&nbsp; @Html.ActionLink("Şifre değiştir", "NewPassword", "Account") &nbsp;&nbsp; @Html.ActionLink("Yazı Ekle", "AddPost", "Manage")</p>
+            </content>
+            &nbsp;&nbsp;
+        </tr>
+        <tr>
+            <table class="table table-hover" id="ManageTable">
+                <tr class="warning">
+                    <td><b><u>Kullanıcı Adı</u></b></td>
+                    <td><b><u>Yazı Başlığı</u></b></td>
+                    <td><b><u>Tarih</u></b></td>
+                    <td><b><u>Yayında mı?</u></b></td>
+                    <td><b><u>Yazıyı Düzenle</u></b></td>
+                    <td><b><u>Yazıyı Sil</u></b></td>
+
+                </tr>
+                @foreach (var item in kListe)
+                {
+                    <tr>
+                        <td>@item.UserInfo.UserName</td>
+                        <td>@Html.ActionLink(@item.Title, "ManageContent", new { id = item.Id }) <br /></td>
+                        <td>@item.Date</td>
+                        <td>
+                            @if (item.Active == "True")
+                            {
+                                <Text>Yayında</text>
+                            }
+                            else
+                            {
+                                <Text>Beklemede</text>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "ManageEdit", new { id = item.Id })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "ManageDelete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Blog Sitesi</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @*@Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery", "~/Scripts/myJquery.js")
+        @Styles.Render("~/Content/css", "~/Content/style.css", "~/Content/bootstrap.css")*@
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Styles.Render("~/Content/css", "~/Content/style.css", "~/Content/bootstrap.css")
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
+                    <nav>
+                        <ul id="menu">
+                            <li>@Html.ActionLink("Giriş Sayfası", "Index", "Home")</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                </div>
+            </div>
+        </footer>
+
+        @*@Scripts.Render("~/bundles/jquery", "~/Scripts/myJquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/Scripts/prettify/prettify.js", "~/Scripts/jquery.localscroll-1.2.7", "~/Scripts/jquery.scrollTo-1.4.3.1", "~/Scripts/jquery.min", "~/Scripts/layout.js", "~/Scripts/top")
+        @Styles.Render("~/Content/style.css")*@
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
